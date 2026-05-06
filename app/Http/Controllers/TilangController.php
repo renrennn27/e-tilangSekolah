@@ -39,7 +39,7 @@ class TilangController extends Controller
             'foto_base64' => 'required',
         ]);
 
-        $image_parts = explode(";base64,", $request->foto_base64);
+        $image_parts = explode(";base64,", $request->foto_bukti);
         $image_base64 = base64_decode($image_parts[1]);
         $filename = 'tilang/' . uniqid() . '.png';
 
