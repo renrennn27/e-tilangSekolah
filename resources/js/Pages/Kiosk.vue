@@ -1,81 +1,80 @@
-// ...existing code...
 <template>
-  <div class="min-h-screen bg-black text-white antialiased">
+  <div class="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
     <!-- Nav / top bar -->
     <nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-[#FF2D20] flex items-center justify-center font-extrabold text-black">ET</div>
+        <div class="w-10 h-10 rounded-lg bg-[#FF2D20] flex items-center justify-center font-extrabold text-white">ET</div>
         <div>
-          <div class="text-lg font-semibold text-white">E-Tilang</div>
-          <div class="text-xs text-white/80 -mt-1">Kiosk · Scanner · Bukti Visual</div>
+          <div class="text-lg font-semibold text-zinc-100">E-Tilang</div>
+          <div class="text-xs text-zinc-400 -mt-1">Kiosk · Scanner · Bukti Visual</div>
         </div>
       </div>
     </nav>
 
     <!-- Main content -->
     <main class="max-w-7xl mx-auto px-6 pb-20">
-      <div id="kiosk-main" ref="mainRef" class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-slate-900/80 rounded-2xl p-6 shadow-xl text-slate-100 border border-slate-800">
+      <div id="kiosk-main" ref="mainRef" class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-zinc-900 rounded-2xl p-6 shadow-xl text-zinc-100 border border-zinc-800">
         <!-- Camera / Live feed -->
-        <section id="camera" class="p-6 rounded-2xl border border-slate-700 bg-slate-800/50">
+        <section id="camera" class="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/60">
           <div class="flex items-start justify-between mb-4">
             <div>
-              <h2 class="text-xl font-semibold text-white">Live Webcam Feed</h2>
-              <p class="text-sm text-slate-400 mt-1">Jepret bukti visual yang akan tersimpan sementara sebelum diproses.</p>
+              <h2 class="text-xl font-semibold text-zinc-100">Live Webcam Feed</h2>
+              <p class="text-sm text-zinc-400 mt-1">Jepret bukti visual yang akan tersimpan sementara sebelum diproses.</p>
             </div>
-            <div class="text-xs text-slate-400">Mode Guru</div>
+            <div class="text-xs text-zinc-500">Mode Guru</div>
           </div>
 
-          <div class="relative rounded-xl overflow-hidden bg-black border border-slate-700 aspect-video flex items-center justify-center">
+          <div class="relative rounded-xl overflow-hidden bg-zinc-950 border border-zinc-800 aspect-video flex items-center justify-center">
             <video ref="videoElement" autoplay playsinline muted class="w-full h-full object-cover"></video>
             <canvas ref="canvasElement" class="hidden"></canvas>
           </div>
 
           <div class="mt-4 flex gap-3">
-            <button @click="ambilFoto" class="flex-1 bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-orange-500 transition-colors">
+            <button @click="ambilFoto" class="flex-1 bg-[#FF2D20] text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-red-600 transition-colors">
               📸 Ambil Foto Bukti
             </button>
-            <button @click="togglePreview" class="px-4 py-2 rounded-lg border border-slate-700 text-sm text-slate-300 hidden">Pratinjau</button>
+            <button @click="togglePreview" class="px-4 py-2 rounded-lg border border-zinc-700 text-sm text-zinc-400 hidden">Pratinjau</button>
           </div>
 
-          <div v-if="fotoBase64" class="mt-4 p-3 bg-slate-800 rounded-lg border border-orange-700">
-            <p class="text-xs text-orange-400 mb-2">✓ Bukti Visual Tersimpan Sementara</p>
-            <img :src="fotoBase64" class="w-40 rounded border border-slate-700" />
+          <div v-if="fotoBase64" class="mt-4 p-3 bg-zinc-800 rounded-lg border border-[#FF2D20]/40">
+            <p class="text-xs text-[#FF2D20] mb-2">✓ Bukti Visual Tersimpan Sementara</p>
+            <img :src="fotoBase64" class="w-40 rounded border border-zinc-700" />
           </div>
         </section>
 
         <!-- Form / RFID -->
-        <section id="form" class="p-6 rounded-2xl border border-slate-700 bg-slate-800/50">
+        <section id="form" class="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/60">
           <div class="mb-4">
-            <h2 class="text-xl font-semibold text-white">Data Pelanggaran</h2>
-            <p class="text-sm text-slate-400 mt-1">Scan kartu RFID atau ketik NISN/nama, pilih pelanggaran, lalu proses tilang.</p>
+            <h2 class="text-xl font-semibold text-zinc-100">Data Pelanggaran</h2>
+            <p class="text-sm text-zinc-400 mt-1">Scan kartu RFID atau ketik NISN/nama, pilih pelanggaran, lalu proses tilang.</p>
           </div>
 
           <div class="mb-5">
-            <label class="block text-sm font-medium text-slate-300 mb-1">Identifikasi Siswa (RFID / Manual)</label>
+            <label class="block text-sm font-medium text-zinc-300 mb-1">Identifikasi Siswa (RFID / Manual)</label>
             <div class="flex gap-2">
               <input 
                 v-model="inputPencarian" 
                 @keyup.enter="cariSiswa"
                 type="text" 
                 placeholder="Tempelkan kartu atau ketik nama/NISN lalu Enter..."
-                class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-[#FF2D20] focus:ring-1 focus:ring-[#FF2D20]"
               />
-              <button @click="cariSiswa" class="bg-orange-600 hover:bg-orange-500 px-4 py-2 rounded-lg transition-colors text-white font-semibold">Cari</button>
+              <button @click="cariSiswa" class="bg-[#FF2D20] hover:bg-red-600 px-4 py-2 rounded-lg transition-colors text-white font-semibold">Cari</button>
             </div>
           </div>
 
-          <div v-if="siswaTerpilih" class="mb-5 p-4 bg-slate-800/60 rounded-lg border-l-4 border-orange-500">
-            <p class="text-sm text-slate-300">Siswa Teridentifikasi:</p>
-            <h3 class="text-lg font-bold text-white">{{ siswaTerpilih.nama }}</h3>
-            <p class="text-sm text-slate-300">Kelas: {{ siswaTerpilih.kelas }} · NISN: {{ siswaTerpilih.nisn }}</p>
-            <div class="mt-2 inline-block px-3 py-1 bg-orange-900/20 text-orange-300 rounded-full text-xs font-semibold">
+          <div v-if="siswaTerpilih" class="mb-5 p-4 bg-zinc-800/60 rounded-lg border-l-4 border-[#FF2D20]">
+            <p class="text-sm text-zinc-400">Siswa Teridentifikasi:</p>
+            <h3 class="text-lg font-bold text-zinc-100">{{ siswaTerpilih.nama }}</h3>
+            <p class="text-sm text-zinc-400">Kelas: {{ siswaTerpilih.kelas }} · NISN: {{ siswaTerpilih.nisn }}</p>
+            <div class="mt-2 inline-block px-3 py-1 bg-[#FF2D20]/10 text-[#FF2D20] rounded-full text-xs font-semibold">
               Total Poin Saat Ini: {{ siswaTerpilih.total_poin_pelanggaran }}
             </div>
           </div>
 
           <div v-if="siswaTerpilih" class="mb-5">
-            <label class="block text-sm font-medium text-slate-300 mb-1">Jenis Pelanggaran</label>
-            <select v-model="form.pelanggaran_id" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+            <label class="block text-sm font-medium text-zinc-300 mb-1">Jenis Pelanggaran</label>
+            <select v-model="form.pelanggaran_id" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-100 focus:outline-none focus:border-[#FF2D20] focus:ring-1 focus:ring-[#FF2D20]">
               <option disabled value="">-- Pilih Pelanggaran --</option>
               <option v-for="p in pelanggarans" :key="p.id" :value="p.id">
                 {{ p.nama_pelanggaran }} (+{{ p.poin_pelanggaran }} Poin)
@@ -84,22 +83,20 @@
           </div>
 
           <div v-if="siswaTerpilih" class="mb-5">
-            <label class="block text-sm font-medium text-slate-300 mb-1">Catatan Tambahan (Opsional)</label>
-            <textarea v-model="form.catatan" rows="3" class="w-full bg-slate-900/70 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-orange-500" placeholder="Misal: Siswa tidak bawa kartu..."></textarea>
+            <label class="block text-sm font-medium text-zinc-300 mb-1">Catatan Tambahan (Opsional)</label>
+            <textarea v-model="form.catatan" rows="3" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2 text-zinc-100 focus:outline-none focus:border-[#FF2D20]" placeholder="Misal: Siswa tidak bawa kartu..."></textarea>
           </div>
 
           <button 
             v-if="siswaTerpilih && fotoBase64 && form.pelanggaran_id"
             @click="submitTilang" 
-            class="w-full bg-orange-700 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+            class="w-full bg-[#FF2D20] hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition-transform transform hover:scale-105"
           >
             🚨 PROSES TILANG & CETAK STRUK
           </button>
         </section>
       </div>
     </main>
-
-    <footer class="border-t border-slate-800 py-6 text-center text-sm text-slate-400">© 2026 E‑Tilang — Dikelola Sekolah</footer>
   </div>
 </template>
 
