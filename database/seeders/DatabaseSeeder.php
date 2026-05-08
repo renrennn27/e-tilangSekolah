@@ -48,7 +48,23 @@ class DatabaseSeeder extends Seeder
             'nisn' => '0055667788',
             'nama' => 'Habl Sankrumi',
             'kelas' => 'XI RPL 2',
-            'total_poin_pelanggaran' => 25
+            'total_poin_pelanggaran' => 0
+        ]);
+
+        Siswa::create([
+            'rfid_uid' => '0042324880', 
+            'nisn' => '0055667787',
+            'nama' => 'Ghatfan Prayoga',
+            'kelas' => 'XI RPL 2',
+            'total_poin_pelanggaran' => 0
+        ]);
+
+         Siswa::create([
+            'rfid_uid' => '0040911894', 
+            'nisn' => '0055667789',
+            'nama' => 'Jeki Nur Hakim',
+            'kelas' => 'XI RPL 2',
+            'total_poin_pelanggaran' => 0
         ]);
     }
 }

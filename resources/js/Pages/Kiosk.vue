@@ -5,7 +5,7 @@
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-lg bg-[#FF2D20] flex items-center justify-center font-extrabold text-white">ET</div>
         <div>
-          <div class="text-lg font-semibold text-zinc-100">E-Tilang</div>
+          <div class="text-lg font-semibold text-zinc-100">E-TilangSekolah</div>
           <div class="text-xs text-zinc-400 -mt-1">Kiosk · Scanner · Bukti Visual</div>
         </div>
       </div>
