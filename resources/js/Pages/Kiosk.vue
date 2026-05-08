@@ -104,7 +104,6 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 
-// ...existing code...
 const props = defineProps({
     pelanggarans: Array
 });
@@ -168,6 +167,31 @@ function scrollTo(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+
+// === LOGIKA RFID HARDWARE (GLOBAL LISTENER) ===
+let rfidBuffer = '';
+let lastKeyTime = Date.now();
+
+window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+
+    const currentTime = Date.now();
+
+    if (currentTime - lastKeyTime > 50) {
+        rfidBuffer = ''; 
+    }
+    
+    if (e.key === 'Enter' && rfidBuffer.length >= 8) {
+        e.preventDefault();
+        inputPencarian.value = rfidBuffer;
+        cariSiswa(); 
+        rfidBuffer = '';
+    } else if (e.key !== 'Enter' && e.key !== 'Shift') {
+        rfidBuffer += e.key;
+    }
+    
+    lastKeyTime = currentTime;
+});
 
 // === LOGIKA PENCARIAN (RFID / MANUAL) ===
 const cariSiswa = async () => {
