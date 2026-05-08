@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RiwayatPelanggaran extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'siswa_id',
-        'pelanggaran_id',
-        'user_id',
-        'catatan',
-        'foto_bukti',
-    ];
+    protected $guarded = [];
 
     public function siswa()
     {

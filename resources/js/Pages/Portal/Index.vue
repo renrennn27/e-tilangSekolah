@@ -155,7 +155,7 @@
                                         </td>
                                         <td class="py-4 px-6 text-center">
                                             <div class="bg-red-500/10 border border-red-500/20 text-red-400 font-bold px-3 py-1.5 rounded-lg text-sm inline-block mb-2 shadow-inner">
-                                                +{{ riwayat.pelanggaran.bobot_poin }}
+                                                +{{ riwayat.pelanggaran.poin_pelanggaran }}
                                             </div>
                                             <div class="text-xs text-zinc-500">
                                                 Oleh: {{ riwayat.user.name }}
