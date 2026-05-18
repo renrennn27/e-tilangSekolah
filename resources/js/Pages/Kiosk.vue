@@ -131,7 +131,7 @@
                                 <select v-model="form.pelanggaran_id" class="w-full bg-black/50 border border-white/10 rounded-xl py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-red-500/50 appearance-none">
                                     <option disabled value="">-- Pilih Pelanggaran --</option>
                                     <option v-for="p in pelanggarans" :key="p.id" :value="p.id">
-                                        {{ p.nama_pelanggaran }} (+{{ p.bobot_poin }} Poin)
+                                        {{ p.nama_pelanggaran }} (+{{ p.poin_pelanggaran }} Poin)
                                     </option>
                                 </select>
                             </div>
@@ -152,10 +152,8 @@
                                 <span v-else>🚨 PROSES TILANG</span>
                             </button>
                         </div>
-
                     </div>
                 </section>
-
             </div>
         </main>
     </div>
@@ -177,6 +175,7 @@ const fotoBase64 = ref(null);
 const inputPencarian = ref('');
 const siswaTerpilih = ref(null);
 const isSubmitting = ref(false);
+const dataStruk = ref(null);
 
 const form = ref({
     pelanggaran_id: '',
@@ -274,12 +273,14 @@ const submitTilang = async () => {
         });
 
         if (response.data.status === 'success') {
-            alert("Sukses! " + response.data.message);
-            // Reset state
+            alert("Sukses! " + response.data.message + " Struk sedang dicetak...");
+            
+            // Reset Form
             siswaTerpilih.value = null;
             fotoBase64.value = null;
             form.value.pelanggaran_id = '';
             form.value.catatan = '';
+            inputPencarian.value = '';
         }
     } catch (error) {
         alert("Terjadi kesalahan saat memproses data.");

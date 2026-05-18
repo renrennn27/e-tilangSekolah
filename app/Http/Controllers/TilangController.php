@@ -8,6 +8,8 @@ use App\Models\Pelanggaran;
 use App\Models\RiwayatPelanggaran;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 class TilangController extends Controller
 {
@@ -58,6 +60,49 @@ class TilangController extends Controller
         ]);
 
         $siswa->increment('total_poin_pelanggaran', $pelanggaran->poin_pelanggaran);
+
+        try {
+            $connector = new FilePrintConnector("/dev/usb/lp0"); // Sesuaikan jika usb kamu lp1
+            $printer = new Printer($connector);
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->setTextSize(2, 2); 
+            $printer->text("BUKTI E-TILANG\n");
+            $printer->setTextSize(1, 1); 
+            $printer->text("Sistem Kedisiplinan Sekolah\n");
+            $printer->text("------------------------------------------\n");
+
+            $printer->setJustification(Printer::JUSTIFY_LEFT);
+            $printer->text("Tanggal : " . date('d-m-Y H:i') . "\n");
+            // Ambil dari objek $siswa, BUKAN dari $request
+            $printer->text("Nama    : " . $siswa->nama . "\n"); 
+            $printer->text("NISN    : " . $siswa->nisn . "\n");
+            $printer->text("------------------------------------------\n");
+            
+            $printer->text("Pelanggaran:\n");
+            $printer->text($pelanggaran->nama_pelanggaran . "\n");
+            if ($request->catatan) {
+                $printer->text("Ket     : " . $request->catatan . "\n");
+            }
+            $printer->text("------------------------------------------\n");
+
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text("POIN DIBERIKAN : +" . $pelanggaran->poin_pelanggaran . "\n");
+            // Pastikan mengambil poin terbaru (setelah di-increment)
+            $printer->text("TOTAL POIN     : " . $siswa->fresh()->total_poin_pelanggaran . "\n");
+            $printer->text("------------------------------------------\n");
+
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("Harap serahkan bukti ini\n");
+            $printer->text("kepada Orang Tua/Wali.\n");
+
+            $printer->feed(3);
+            $printer->cut();
+            $printer->close();
+
+        } catch (\Exception $e) {
+            \Log::error("Gagal Print Struk: " . $e->getMessage());
+        }
 
         return response()->json([
             'status' => 'success',
