@@ -51,26 +51,22 @@ Route::post('/siswa', function (Request $request) {
         'nisn' => $request->nisn,
         'kelas' => $request->kelas,
         'rfid_uid' => $request->rfid_uid,
-        'total_poin_pelanggaran' => 0 // Awal mula siswa suci tanpa dosa (0 Poin)
+        'total_poin_pelanggaran' => 0 
     ]);
 
     return back();
 })->middleware(['auth'])->name('siswa.store');
 
-
-// Route Profil Guru (Untuk ubah password dll)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route Kiosk (Mesin Pemindai E-Tilang)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/kiosk', [TilangController::class, 'index'])->name('kiosk.index');
     Route::post('/kiosk/search', [TilangController::class, 'searchSiswa'])->name('kiosk.search');
     Route::post('/kiosk/store', [TilangController::class, 'store'])->name('kiosk.store');
 });
 
-// Memuat route bawaan Breeze untuk Login, Logout, dan Lupa Password
 require __DIR__.'/auth.php';

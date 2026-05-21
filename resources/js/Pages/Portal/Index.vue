@@ -1,8 +1,7 @@
 <template>
-    <!-- Background ala Laravel 12: Gelap pekat dengan aksen grid/glow -->
     <div class="min-h-screen bg-[#0a0a0a] text-zinc-300 font-sans selection:bg-red-500/30">
         
-        <!-- Navbar Glassmorphism -->
+        <!-- Navbar -->
         <nav class="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center shadow-lg shadow-red-500/20">
@@ -16,13 +15,10 @@
         </nav>
 
         <main class="max-w-5xl mx-auto px-4 py-12 md:py-20">
-            
-            <!-- STATE 1: PENCARIAN & HASIL (Hanya tampil jika belum ada siswa yang dipilih) -->
             <div v-if="!selectedSiswa" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
                 
                 <!-- Hero Section -->
                 <div class="text-center mb-12 relative">
-                    <!-- Subtle Glow di belakang teks -->
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-red-500/10 blur-3xl rounded-full pointer-events-none"></div>
                     
                     <h2 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
@@ -80,7 +76,6 @@
                 </div>
             </div>
 
-            <!-- STATE 2: DETAIL PROFIL & RIWAYAT (Tampil jika selectedSiswa ada datanya) -->
             <div v-else class="animate-in fade-in slide-in-from-right-8 duration-500">
                 
                 <button @click="selectedSiswa = null" class="mb-6 text-zinc-400 hover:text-white flex items-center gap-2 transition-colors text-sm font-medium group">
@@ -177,16 +172,14 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-// State Pencarian
 const keyword = ref('');
 const siswaList = ref([]);
 const hasSearched = ref(false);
 const isLoading = ref(false);
 
-// State Detail
 const selectedSiswa = ref(null);
 
-// Fungsi mencari list siswa
+
 const cariSiswa = async () => {
     if (!keyword.value) return;
     
@@ -204,7 +197,6 @@ const cariSiswa = async () => {
     }
 };
 
-// Fungsi mengambil detail lengkap saat tombol di klik
 const lihatDetail = async (id) => {
     try {
         const response = await axios.get(`/portal/siswa/${id}`);

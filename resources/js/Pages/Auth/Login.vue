@@ -1,7 +1,6 @@
 <template>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#0a0a0a] relative overflow-hidden">
-        
-        <!-- Background Glow Effect -->
+
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-600/20 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div class="w-full sm:max-w-md mt-6 px-8 py-10 bg-zinc-900/60 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden sm:rounded-3xl z-10 relative">

@@ -154,7 +154,6 @@ const props = defineProps({
     riwayatTerbaru: { type: Array, default: () => [] }
 });
 
-// State untuk Modal Tambah Siswa
 const showModalSiswa = ref(false);
 
 const formSiswa = useForm({
@@ -164,7 +163,6 @@ const formSiswa = useForm({
     rfid_uid: ''
 });
 
-// Fungsi Menyimpan Siswa Baru
 const submitSiswa = () => {
     formSiswa.post('/siswa', {
         preserveScroll: true,
@@ -176,7 +174,6 @@ const submitSiswa = () => {
     });
 };
 
-// Fungsi Hapus Pelanggaran
 const hapusData = (id) => {
     if (confirm('Hapus riwayat pelanggaran ini?')) {
         router.delete(`/pelanggaran/${id}`, { preserveScroll: true });

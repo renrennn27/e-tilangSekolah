@@ -25,8 +25,6 @@
 
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                <!-- KOLOM KIRI: Kamera & Bukti Visual (Lebar 5/12) -->
                 <section class="lg:col-span-5 flex flex-col gap-6">
                     <div class="bg-zinc-900/40 border border-white/5 rounded-2xl p-6 shadow-xl relative overflow-hidden">
                         <div class="flex items-center justify-between mb-4">
@@ -43,8 +41,7 @@
                         <div class="relative bg-black rounded-xl overflow-hidden border border-white/10 aspect-video flex justify-center items-center group">
                             <video ref="videoElement" autoplay playsinline class="w-full h-full object-cover"></video>
                             <canvas ref="canvasElement" class="hidden"></canvas>
-                            
-                            <!-- Overlay Grid Ala HUD Kamera -->
+
                             <div class="absolute inset-0 pointer-events-none border border-white/5 flex flex-col justify-between p-4 opacity-30">
                                 <div class="flex justify-between"><div class="w-4 h-4 border-t-2 border-l-2 border-white"></div><div class="w-4 h-4 border-t-2 border-r-2 border-white"></div></div>
                                 <div class="flex justify-between"><div class="w-4 h-4 border-b-2 border-l-2 border-white"></div><div class="w-4 h-4 border-b-2 border-r-2 border-white"></div></div>
@@ -68,7 +65,6 @@
                     </div>
                 </section>
 
-                <!-- KOLOM KANAN: Formulir Data & Logika RFID (Lebar 7/12) -->
                 <section class="lg:col-span-7 flex flex-col gap-6">
                     <div class="bg-zinc-900/40 border border-white/5 rounded-2xl p-6 shadow-xl lg:p-8">
                         
@@ -101,7 +97,7 @@
                             </form>
                         </div>
 
-                        <!-- Info Siswa Terpilih (Glassmorphism Card) -->
+                        <!-- Info Siswa Terpilih  -->
                         <div v-if="siswaTerpilih" class="mb-8 p-5 bg-gradient-to-br from-zinc-800/80 to-zinc-900/80 rounded-xl border border-white/10 relative overflow-hidden animate-in fade-in slide-in-from-right-4">
                             <div class="absolute right-0 top-0 w-32 h-32 bg-red-500/10 blur-3xl rounded-full pointer-events-none"></div>
                             
@@ -167,7 +163,6 @@ const props = defineProps({
     pelanggarans: Array
 });
 
-// State
 const videoElement = ref(null);
 const canvasElement = ref(null);
 const fotoBase64 = ref(null);
@@ -182,7 +177,6 @@ const form = ref({
     catatan: ''
 });
 
-// === LOGIKA WEBCAM ===
 let stream = null;
 
 onMounted(async () => {
@@ -194,13 +188,11 @@ onMounted(async () => {
     } catch (err) {
         console.error("Webcam error:", err);
     }
-    
-    // Pasang Global Listener RFID saat halaman dimuat
+  
     window.addEventListener('keydown', handleRFIDScan);
 });
 
 onUnmounted(() => {
-    // Matikan webcam dan lepas listener saat pindah halaman
     if (stream) stream.getTracks().forEach(track => track.stop());
     window.removeEventListener('keydown', handleRFIDScan);
 });
@@ -217,22 +209,18 @@ const ambilFoto = () => {
     fotoBase64.value = canvas.toDataURL('image/jpeg', 0.8);
 };
 
-// === LOGIKA RFID GLOBAL LISTENER ===
 let rfidBuffer = '';
 let lastKeyTime = Date.now();
 
 const handleRFIDScan = (e) => {
-    // Abaikan jika sedang mengetik di input/textarea
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
     const currentTime = Date.now();
-    // Jika jeda ngetik lebih dari 50ms (manusia lambat), reset buffer
     if (currentTime - lastKeyTime > 50) {
         rfidBuffer = ''; 
     }
     
     if (e.key === 'Enter' && rfidBuffer.length >= 8) {
-        // Terdeteksi tembakan scanner RFID!
         e.preventDefault();
         inputPencarian.value = rfidBuffer;
         cariSiswa();
@@ -244,7 +232,6 @@ const handleRFIDScan = (e) => {
     lastKeyTime = currentTime;
 };
 
-// === LOGIKA PENCARIAN & SUBMIT ===
 const cariSiswa = async () => {
     if (!inputPencarian.value) return;
     
@@ -274,8 +261,7 @@ const submitTilang = async () => {
 
         if (response.data.status === 'success') {
             alert("Sukses! " + response.data.message + " Struk sedang dicetak...");
-            
-            // Reset Form
+
             siswaTerpilih.value = null;
             fotoBase64.value = null;
             form.value.pelanggaran_id = '';

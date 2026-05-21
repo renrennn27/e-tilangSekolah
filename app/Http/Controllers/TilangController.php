@@ -62,7 +62,7 @@ class TilangController extends Controller
         $siswa->increment('total_poin_pelanggaran', $pelanggaran->poin_pelanggaran);
 
         try {
-            $connector = new FilePrintConnector("/dev/usb/lp0"); // Sesuaikan jika usb kamu lp1
+            $connector = new FilePrintConnector("/dev/usb/lp0");
             $printer = new Printer($connector);
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -74,7 +74,6 @@ class TilangController extends Controller
 
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer->text("Tanggal : " . date('d-m-Y H:i') . "\n");
-            // Ambil dari objek $siswa, BUKAN dari $request
             $printer->text("Nama    : " . $siswa->nama . "\n"); 
             $printer->text("NISN    : " . $siswa->nisn . "\n");
             $printer->text("------------------------------------------\n");
@@ -88,13 +87,12 @@ class TilangController extends Controller
 
             $printer->setJustification(Printer::JUSTIFY_RIGHT);
             $printer->text("POIN DIBERIKAN : +" . $pelanggaran->poin_pelanggaran . "\n");
-            // Pastikan mengambil poin terbaru (setelah di-increment)
             $printer->text("TOTAL POIN     : " . $siswa->fresh()->total_poin_pelanggaran . "\n");
             $printer->text("------------------------------------------\n");
 
             $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Harap serahkan bukti ini\n");
-            $printer->text("kepada Orang Tua/Wali.\n");
+            $printer->text("Harap simpan bukti ini\n");
+            $printer->text("untuk pengambilan kembali barang yang disita.\n");
 
             $printer->feed(3);
             $printer->cut();
